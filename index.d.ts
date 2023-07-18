@@ -21,6 +21,7 @@ interface Micro {
     loader: Function,
     display: Function,
     listener?: any,
+    fn?: any,
     Static?: Static
 }
 
