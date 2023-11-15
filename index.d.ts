@@ -27,6 +27,8 @@ declare namespace front {
     type Fn_ = {
         init(index?: Number): void;
         link(e: any): void;
+        linkChange(link: String): void;
+        initAll(): void;
         // initAuto(index?: Number): void;
     }
 
