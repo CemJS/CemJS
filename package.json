@@ -1,6 +1,6 @@
 {
   "name": "cemjs-all",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CemJS is a great choice for developers who want to create effective web applications.",
   "keywords": [
     "cemjs",
@@ -18,6 +18,6 @@
     "start": "node index"
   },
   "dependencies": {
-    "cemjs-core": "^1.1.0"
+    "cemjs-core": "^1.1.1"
   }
 }

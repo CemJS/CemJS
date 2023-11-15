@@ -1,3 +1,4 @@
+
 declare namespace front {
 
     type AnyObj = {
@@ -29,7 +30,9 @@ declare namespace front {
         link(e: any): void;
         linkChange(link: String): void;
         initAll(): void;
-        // initAuto(index?: Number): void;
+        initOne(name: String, data: front.AnyObj, ifOpen?: any): void;
+        clearData(): void;
+
     }
 
     type Front = {
@@ -51,13 +54,10 @@ declare namespace front {
 
 declare const front: front.Front
 declare const Static: front.Static_
-declare const Variable: front.Variable_
 declare const Ref: front.AnyObj
 declare const Func: front.AnyObj
 declare const Fn: front.Fn_
-declare const Services: front.AnyObj
 declare const Events: front.AnyObj
-declare const Listener: front.Listener_
 
 interface jsxResult {
     tag: String,
@@ -74,4 +74,4 @@ interface Configs {
 
 export declare function Cemjsx(tag: String, data: any, ...children: any[]): jsxResult
 export declare function initProject(configs: Configs): void
-export { Static, Ref, Variable, front, Func, Fn, Services, Listener }
+export { Static, Ref, front, Func, Fn }
