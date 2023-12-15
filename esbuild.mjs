@@ -205,7 +205,7 @@ const start = async function () {
             if (!haveChange && req.url !== "/esbuild" && !req.url.startsWith("/assets") && !req.url.startsWith("/contents") && !req.url.startsWith("/favicon.ico")) {
                 req.url = "/"
             }
-            proxy.web(req, res, { target: `http://${options.hostname}:${options.port}`, changeOrigin: true });
+            proxy.web(req, res, { target: options.uri, changeOrigin: true });
 
             proxy.on('error', function (err, req, res) {
                 console.log('=proxy.on=', err)
