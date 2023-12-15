@@ -182,6 +182,7 @@ const start = async function () {
                 path: req.url,
                 method: req.method,
                 headers: req.headers,
+                uri: `http://127.0.0.1:${serve.port}`
             }
 
             let haveChange = false
@@ -192,6 +193,12 @@ const start = async function () {
                     options.hostname = item.host
                     options.headers.host = options.hostname
                     haveChange = true
+
+                    if (item.https) {
+                        options.uri = `https://${options.hostname}:${options.port}`
+                    } else {
+                        options.uri = `http://${options.hostname}:${options.port}`
+                    }
                 }
             })
 
