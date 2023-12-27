@@ -1,12 +1,14 @@
 import esbuild from "esbuild";
-import http from 'http'
-import httpProxy from 'http-proxy'
 import { sassPlugin } from "esbuild-sass-plugin";
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import path from 'path'
 import fs from 'fs'
-const proxy = httpProxy.createProxyServer({});
+import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+var app = express();
+
+// const proxy = httpProxy.createProxyServer({});
 
 const dirFrontends = path.resolve("frontends")
 const dirServices = path.resolve("services")
@@ -174,48 +176,22 @@ const start = async function () {
         const serve = await ctx.serve({ servedir: "public" })
         console.log(`\nWeb: http://127.0.0.1:${cemconfig.port}`)
 
-        http.createServer((req, res) => {
-
-            const options = {
-                hostname: "127.0.0.1",
-                port: serve.port,
-                path: req.url,
-                method: req.method,
-                headers: req.headers,
-                uri: `http://127.0.0.1:${serve.port}`
+        cemconfig.hook?.proxyWeb.map((item) => {
+            let host = `http://${item.host}:${item.port}`
+            if (item.https) {
+                host = `https://${item.host}:${item.port}`
             }
-
-            let haveChange = false
-
-            cemconfig.hook?.proxyWeb.map((item) => {
-                if (req.url.startsWith(item.url)) {
-                    options.port = item.port
-                    options.hostname = item.host
-                    options.headers.host = options.hostname
-                    haveChange = true
-
-                    if (item.https) {
-                        options.uri = `https://${options.hostname}:${options.port}`
-                    } else {
-                        options.uri = `http://${options.hostname}:${options.port}`
-                    }
+            app.use(item.url, createProxyMiddleware({ target: host, changeOrigin: true }));
+        });
+        app.use('/', createProxyMiddleware({
+            target: `http://127.0.0.1:${serve.port}`, changeOrigin: true, pathRewrite: function (path, req) {
+                if (path == "/esbuild" || path.startsWith("/assets") || path.startsWith("/contents") || path == "/favicon.ico") {
+                    return path
                 }
-            })
-
-            if (!haveChange && req.url !== "/esbuild" && !req.url.startsWith("/assets") && !req.url.startsWith("/contents") && !req.url.startsWith("/favicon.ico")) {
-                req.url = "/"
+                return "/"
             }
-            proxy.web(req, res, { target: options.uri, changeOrigin: true });
-
-            proxy.on('error', function (err, req, res) {
-                console.log('=proxy.on=', err)
-                // res.writeHead(500, {
-                //     'Content-Type': 'text/plain'
-                // });
-                // res.end('Something went wrong. And we are reporting a custom error message.');
-            });
-
-        }).listen(cemconfig.port)
+        }));
+        app.listen(cemconfig.port);
         await ctx.watch()
     } else {
         console.log("🏃‍♂️ Start Build... 🏃‍♂️")
