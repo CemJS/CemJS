@@ -5,10 +5,19 @@ declare namespace front {
         [key: string]: any
     }
 
+    type ListenerObj = {
+        type: String;
+        fn(obj: AnyObj): void;
+    }
+
     type Static_ = {
         setInterval: Number
         setTimeout: Number
         name: String
+        [key: string]: any
+    }
+
+    type Events_ = {
         [key: string]: any
     }
 
@@ -32,7 +41,7 @@ declare namespace front {
         initAll(): void;
         initOne(name: String, data: front.AnyObj, ifOpen?: any): void;
         clearData(): void;
-
+        event(url: String, Listener: [ListenerObj]): any;
     }
 
     type Front = {
