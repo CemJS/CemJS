@@ -1,6 +1,6 @@
 {
   "name": "cemjs-all",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "CemJS is a great choice for developers who want to create effective web applications.",
   "keywords": [
     "cemjs",
@@ -21,9 +21,7 @@
     "cemjs-core": "^1.1.4",
     "esbuild": "^0.19.1",
     "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6"
-  },
-  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6",
     "autoprefixer": "^10.4.14",
     "esbuild-sass-plugin": "^2.12.0",
     "path": "^0.12.7",

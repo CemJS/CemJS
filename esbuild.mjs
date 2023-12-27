@@ -174,8 +174,6 @@ const start = async function () {
         const ctx = await esbuild.context(options).catch(() => process.exit(1))
         console.log("⚡ Build complete! ⚡")
         const serve = await ctx.serve({ servedir: "public" })
-        console.log(`\nWeb: http://127.0.0.1:${cemconfig.port}`)
-
         cemconfig.hook?.proxyWeb.map((item) => {
             let host = `http://${item.host}:${item.port}`
             if (item.https) {
@@ -192,6 +190,7 @@ const start = async function () {
             }
         }));
         app.listen(cemconfig.port);
+        console.log(`\nWeb: http://127.0.0.1:${cemconfig.port}`)
         await ctx.watch()
     } else {
         console.log("🏃‍♂️ Start Build... 🏃‍♂️")
