@@ -83,4 +83,4 @@ interface Configs {
 
 export declare function Cemjsx(tag: String, data: any, ...children: any[]): jsxResult
 export declare function initProject(configs: Configs): void
-export { Static, Ref, front, Func, Fn }
+export { Static, Ref, front, Func, Fn, Events }
