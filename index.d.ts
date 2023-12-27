@@ -41,7 +41,7 @@ declare namespace front {
         initAll(): void;
         initOne(name: String, data: front.AnyObj, ifOpen?: any): void;
         clearData(): void;
-        event(url: String, Listener: [ListenerObj]): any;
+        event(url: String, Listener: ListenerObj[]): any;
     }
 
     type Front = {
