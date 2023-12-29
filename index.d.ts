@@ -43,6 +43,7 @@ declare namespace front {
         initAuto(key: any, fn?: any): void;
         clearData(): void;
         event(url: String, Listener: ListenerObj[]): any;
+        log(...params: any): void;
     }
 
     type Front = {
