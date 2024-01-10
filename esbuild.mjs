@@ -177,7 +177,7 @@ const start = async function () {
         cemconfig.hook?.proxyWeb.map((item) => {
             let host = `http://${item.host}:${item.port}`
             if (item.https) {
-                host = `https://${item.host}:${item.port}`
+                host = `https://${item.host}`
             }
             app.use(item.url, createProxyMiddleware({ target: host, changeOrigin: true }));
         });
