@@ -183,7 +183,7 @@ const start = async function () {
         });
         app.use('/', createProxyMiddleware({
             target: `http://127.0.0.1:${serve.port}`, changeOrigin: true, pathRewrite: function (path, req) {
-                if (path == "/esbuild" || path.startsWith("/assets") || path.startsWith("/contents") || path == "/favicon.ico") {
+                if (path == "/esbuild" || (path.startsWith("/assets") && !path.startsWith("/assets/upload/")) || path.startsWith("/contents") || path == "/favicon.ico") {
                     return path
                 }
                 return "/"
