@@ -8,13 +8,13 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 var app = express();
 
-// const proxy = httpProxy.createProxyServer({});
-
+const dirCemjs = path.resolve("node_modules/cemjs-all/servecemjs.exe")
 const dirFrontends = path.resolve("frontends")
 const dirServices = path.resolve("services")
 const dirPages = path.resolve("config", "pages")
 const runServe = process.argv.includes("--runServe")
 const runProd = process.argv.includes("--runProd")
+const runDev = process.argv.includes("--runDev")
 
 let cemconfig = JSON.parse(fs.readFileSync("./config/cemjs.json"))
 
@@ -174,6 +174,14 @@ const start = async function () {
         const ctx = await esbuild.context(options).catch(() => process.exit(1))
         console.log("⚡ Build complete! ⚡")
         const serve = await ctx.serve({ servedir: "public" })
+
+        if (runDev) {
+            console.log(`\nWeb: http://127.0.0.1:${cemconfig.port}`)
+            await ctx.watch()
+            return
+        }
+
+
         cemconfig.hook?.proxyWeb.map((item) => {
             let host = `http://${item.host}:${item.port}`
             if (item.https) {
@@ -189,8 +197,11 @@ const start = async function () {
                 return "/"
             }
         }));
+
+
         app.listen(cemconfig.port);
         console.log(`\nWeb: http://127.0.0.1:${cemconfig.port}`)
+
         await ctx.watch()
     } else {
         console.log("🏃‍♂️ Start Build... 🏃‍♂️")
