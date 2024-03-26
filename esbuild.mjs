@@ -8,7 +8,6 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 var app = express();
 
-const dirCemjs = path.resolve("node_modules/cemjs-all/servecemjs.exe")
 const dirFrontends = path.resolve("frontends")
 const dirServices = path.resolve("services")
 const dirPages = path.resolve("config", "pages")
