@@ -175,6 +175,18 @@ const start = async function () {
     if (runServe) {
         const ctx = await esbuild.context(options).catch(() => process.exit(1))
         console.log("⚡ Build complete! ⚡")
+        if (cemconfig.imagemin) {
+            await imagemin(["public/assets/*.{png,jpg,jpeg}", "public/contents/**/*.{png,jpg,jpeg}"], {
+                plugins: [
+                    imageminMozjpeg({ quality: 60 }),
+                    imageminPngquant({
+                        quality: [0.6, 0.8]
+                    }),
+                ]
+            }
+            );
+            console.log("⚡ ImageMin complete! ⚡")
+        }
         const serve = await ctx.serve({ servedir: "public" })
 
         if (runDev) {
@@ -209,23 +221,6 @@ const start = async function () {
         console.log("🏃‍♂️ Start Build... 🏃‍♂️")
         await esbuild.build(options).catch(() => process.exit(1))
         console.log("⚡ Build complete! ⚡")
-        if (cemconfig.imagemin) {
-            try {
-                await imagemin(["public/assets/*.{png,jpg,jpeg}", "public/contents/**/*.{png,jpg,jpeg}"], {
-                    plugins: [
-                        imageminMozjpeg({ quality: 60 }),
-                        imageminPngquant({
-                            quality: [0.6, 0.8]
-                        }),
-                    ]
-                }
-                );
-                console.log("⚡ ImageMin complete! ⚡")
-            } catch (error) {
-                console.log("⚡ ImageMin not!!!!! ⚡", error)
-
-            }
-        }
         process.exit(0)
     }
     return
