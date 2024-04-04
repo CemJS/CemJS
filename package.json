@@ -1,6 +1,6 @@
 {
   "name": "cemjs-all",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "description": "CemJS is a great choice for developers who want to create effective web applications.",
   "keywords": [
     "cemjs",
@@ -27,6 +27,9 @@
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "path": "^0.12.7",
-    "postcss": "^8.4.24"
+    "postcss": "^8.4.24",
+    "imagemin-keep-folder": "^5.3.2",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2"
   }
 }

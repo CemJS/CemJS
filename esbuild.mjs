@@ -6,6 +6,9 @@ import path from 'path'
 import fs from 'fs'
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import imagemin from 'imagemin-keep-folder';
+import imageminMozjpeg from 'imagemin-mozjpeg';
+import imageminPngquant from 'imagemin-pngquant';
 var app = express();
 
 const dirFrontends = path.resolve("frontends")
@@ -206,6 +209,23 @@ const start = async function () {
         console.log("🏃‍♂️ Start Build... 🏃‍♂️")
         await esbuild.build(options).catch(() => process.exit(1))
         console.log("⚡ Build complete! ⚡")
+        if (cemconfig.imagemin) {
+            try {
+                await imagemin(["public/assets/*.{png,jpg,jpeg}", "public/contents/**/*.{png,jpg,jpeg}"], {
+                    plugins: [
+                        imageminMozjpeg({ quality: 60 }),
+                        imageminPngquant({
+                            quality: [0.6, 0.8]
+                        }),
+                    ]
+                }
+                );
+                console.log("⚡ ImageMin complete! ⚡")
+            } catch (error) {
+                console.log("⚡ ImageMin not!!!!! ⚡", error)
+
+            }
+        }
         process.exit(0)
     }
     return
